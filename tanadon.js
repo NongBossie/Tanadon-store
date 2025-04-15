@@ -30,6 +30,7 @@ const beverages = [
           <button onclick="increment('${snack.id}')">+</button>
           <button onclick="decrement('${snack.id}')">-</button>
           <button onclick="superdecrement('${snack.id}')">-10</button>
+          <button onclick="submit('${snackAmounts[snack.id]}')">submit</button>
         </div>
       `;
       container.innerHTML += snackHTML;
@@ -51,6 +52,8 @@ const beverages = [
           <button onclick="bincrement('${beverage.id}')">+</button>
           <button onclick="bdecrement('${beverage.id}')">-</button>
           <button onclick="superbdecrement('${beverage.id}')">-10</button>
+          <button onclick="submit('${beverageAmounts[beverage.id]}')">submit</button>
+          
         </div>
       `;
       bcontainer.innerHTML += beverageHTML;
@@ -115,7 +118,93 @@ function superbdecrement(id) {
       document.getElementById(`${id}-amount`).textContent = beverageAmounts[id];
      }
 }
+function showLogin() {
+  document.getElementById('loginForm').classList.remove('hidden');
+  document.getElementById('registerForm').classList.add('hidden');
+  document.getElementById('dashboard').classList.add('hidden');
+}
 
+function showRegister() {
+  document.getElementById('loginForm').classList.add('hidden');
+  document.getElementById('registerForm').classList.remove('hidden');
+  document.getElementById('dashboard').classList.add('hidden');
+}
+
+function login() {
+  const user = document.getElementById('loginUser').value;
+  const pass = document.getElementById('loginPass').value;
+
+  // Dummy check for this demo
+  if (user && pass) {
+    window.location.href = "index.html";
+  } else {
+    alert("Please enter username and password");
+  }
+}
+
+function register() {
+  const user = document.getElementById('regUser').value;
+  const email = document.getElementById('regEmail').value;
+  const pass = document.getElementById('regPass').value;
+  const confirm = document.getElementById('regConfirm').value;
+
+  if (!user || !email || !pass || !confirm) {
+    alert("ระบุ ชื่อและรหัสผ่าน");
+    return;
+  }
+
+  if (pass !== confirm) {
+    alert("ใส่รหัสใหม่");
+    return;
+  }
+
+  alert("ลงทะเบียนสำเร็จ.");
+  showLogin();
+}
+
+function logout() {
+  document.getElementById('dashboard').classList.add('hidden');
+  document.getElementById('loginForm').classList.remove('hidden');
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+}
+function submit()
+{
+  function submit() {
+    let snackSummary = "";
+    let totalSnackCost = 0;
+  
+    for (let snack of snacks) {
+      const amount = snackAmounts[snack.id];
+      if (amount > 0) {
+        const cost = amount * snack.price;
+        snackSummary += `${snack.name}: ${amount} pcs = ${cost} Baht\n`;
+        totalSnackCost += cost;
+      }
+    }
+  
+    let beverageSummary = "";
+    let totalBeverageCost = 0;
+  
+    for (let bev of beverages) {
+      const amount = beverageAmounts[bev.id];
+      if (amount > 0) {
+        const cost = amount * bev.price;
+        beverageSummary += `${bev.name}: ${amount} pcs = ${cost} Baht\n`;
+        totalBeverageCost += cost;
+      }
+    }
+  
+    const total = totalSnackCost + totalBeverageCost;
+  
+    const message = `🧾 Your Order Summary:\n\n${snackSummary}${beverageSummary}\nTotal: ${total} Baht`;
+    alert(message);
+  
+    // Optionally: clear after submit
+    // resetAmounts();
+  }
+  
+}
   // Initialize everything
   renderSnacks();
   renderBeverages();
