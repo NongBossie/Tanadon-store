@@ -136,7 +136,7 @@ function login() {
 
   // Dummy check for this demo
   if (user && pass) {
-    window.location.href = "index.html";
+    window.location.href = "home.html";
   } else {
     alert("Please enter username and password");
   }
